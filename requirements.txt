@@ -3,6 +3,7 @@ langgraph
 langchain-ibm
 python-dotenv
 duckduckgo-search
+ddgs
 langchain-community
 beautifulsoup4
 lxml
