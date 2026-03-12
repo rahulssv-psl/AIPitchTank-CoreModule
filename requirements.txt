@@ -1,0 +1,10 @@
+langchain
+langgraph
+langchain-ibm
+python-dotenv
+duckduckgo-search
+langchain-community
+beautifulsoup4
+lxml
+ipython
+uv
