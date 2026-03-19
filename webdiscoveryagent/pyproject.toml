@@ -1,0 +1,21 @@
+[project]
+name = "webdiscoveryagent"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "aiohttp>=3.13.3",
+    "aiolimiter>=1.2.1",
+    "asyncio>=4.0.0",
+    "beautifulsoup4[lxml]>=4.14.3",
+    "ddgs>=9.11.3",
+    "ibm-watsonx-ai>=1.5.3",
+    "langchain>=1.2.11",
+    "langchain-community>=0.4.1",
+    "langchain-ibm>=1.0.4",
+    "langgraph>=1.1.0",
+    "python-dotenv>=1.2.2",
+    "rich>=14.3.3",
+    "trafilatura>=2.0.0",
+]
