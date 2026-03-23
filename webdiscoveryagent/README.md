@@ -1,59 +1,32 @@
-## Web Discovery Agent
+## Web Discovery Agent Module
 
----
+`webdiscoveryagent` is now a reusable Python module consumed by the core `WebDiscoveryAgent`.
 
-### Quick Start
+## Reusable API
 
-Follow these steps to get the agent up and running on your local machine.
-
-#### 1. Clone the Repository
-
-First, grab the code and navigate into the project directory:
-
-```bash
-git clone https://github.com/amitkumar-ghatwal/PowerPortAI-Ecosystem.git
-cd webdiscoveryagent
-
+```python
+from webdiscoveryagent import WebDiscoveryInput, run_web_discovery
 ```
 
-#### 2. Set Up the Environment
-
-Use **uv** to manage the Python environment and dependencies.
-
-```bash
-# Create a virtual environment
-python -m venv .venv
-source .venv/bin/activate  # On Windows use: .venv\Scripts\activate
-
-# Install uv
-python -m pip install -U pip uv
-uv venv --clear
-source .venv/bin/activate  # On Windows use: .venv\Scripts\activate
-
-# Install dependencies using uv sync
-uv sync
-
+```python
+result = await run_web_discovery(
+    WebDiscoveryInput(
+        package_name="vllm",
+        requested_package_version="0.8.5",
+        architecture_targets=["ppc64le", "s390x"],
+        error_message="ModuleNotFoundError: No module named 'triton.compiler'; 'triton' is not a package",
+    )
+)
 ```
 
-Setup Credentials inside `.env`
+`result` contains:
 
-```bash
-cat <<EOF > .env
-WATSONX_URL=https://us-south.ml.cloud.ibm.com
-WATSONX_API_KEY=your_api_key_here
-PROJECT_ID=your_project_id_here
-EOF
+- `status`
+- `summary`
+- `query`
+- `references`
+- `confidence`
 
-```
+## Legacy script
 
-#### 3. Run the Agent
-
-Once the dependencies are synced, execute the LangChain agent implementation directly through `uv`:
-
-```bash
-uv run langchain_agent_impl.py
-
-```
-
----
-
+The existing `langchain_agent_impl.py` still works as before for standalone experimentation.
