@@ -1,4 +1,4 @@
-# AIPitchTank-CoreModule
+# PowerPortAI-Ecosystem
 
 Watsonx + LangGraph core module for solving open-source package porting/build failures on `ppc64le` and `s390x`.
 
