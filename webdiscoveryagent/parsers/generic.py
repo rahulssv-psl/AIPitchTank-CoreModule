@@ -29,5 +29,5 @@ class GenericParser(BaseParser):
 
     def get_markdown(self) -> str:
         if not self._markdown:
-            self._markdown = extract(self.content)
+            self._markdown = extract(self.content) or ""
         return self._markdown
