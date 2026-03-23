@@ -1,0 +1,19 @@
+{
+  "agent_name": "CorePortingAgent",
+  "input": {
+    "package_name": "vllm",
+    "requested_package_version": "0.8.5",
+    "github_repo_url": "https://github.com/vllm-project/vllm",
+    "error_message": "ModuleNotFoundError: No module named 'triton.compiler'; 'triton' is not a package",
+    "architecture_targets": [
+      "ppc64le",
+      "s390x"
+    ]
+  },
+  "options": {
+    "max_agents": 4,
+    "prefer_local_knowledge": true,
+    "include_raw_evidence": true,
+    "llm_planning": true
+  }
+}
