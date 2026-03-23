@@ -4,6 +4,8 @@ from typing import Any
 
 from langchain_core.prompts import ChatPromptTemplate
 
+from patchagent import PatchAutomationEngine, PatchAutomationError, PatchAutomationInput
+
 from ..config import create_watsonx_chat_model
 from ..models import AgentName, AgentResult, BuildFailureInput
 from ..utils import clamp_confidence, compact_text, safe_json_load
@@ -13,12 +15,38 @@ from .base import BasePortingAgent
 class PatchAgent(BasePortingAgent):
     def __init__(self) -> None:
         self.model = create_watsonx_chat_model()
+        self.patch_automation = PatchAutomationEngine()
 
     @property
     def name(self) -> str:
         return AgentName.PATCH.value
 
     async def run(self, request_input: BuildFailureInput) -> AgentResult:
+        automation_error = ""
+        try:
+            automated = self.patch_automation.generate(
+                PatchAutomationInput(
+                    package_name=request_input.package_name,
+                    requested_package_version=request_input.requested_package_version,
+                    github_repo_url=request_input.github_repo_url,
+                    error_message=request_input.error_message,
+                )
+            )
+            return AgentResult(
+                agent_name=AgentName.PATCH,
+                status=automated.status,
+                summary=automated.summary,
+                data={
+                    "patch_diff": compact_text(automated.patch_diff, 5000),
+                    "commit_message": automated.commit_message,
+                    "steps": automated.steps,
+                    "evidence": automated.evidence,
+                },
+                confidence=automated.confidence,
+            )
+        except PatchAutomationError as exc:
+            automation_error = str(exc)
+
         prompt = ChatPromptTemplate.from_messages(
             [
                 (
@@ -69,6 +97,7 @@ class PatchAgent(BasePortingAgent):
             "commit_message": commit_message,
             "steps": steps if isinstance(steps, list) else [str(steps)],
             "rationale": rationale,
+            "fallback_reason": automation_error,
         }
 
         return AgentResult(

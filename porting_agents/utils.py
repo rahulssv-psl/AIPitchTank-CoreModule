@@ -20,6 +20,13 @@ def compact_text(value: str, limit: int = 1200) -> str:
     return normalized[: limit - 3] + "..."
 
 
+def truncate_text(value: str, limit: int = 1200) -> str:
+    text = value.strip()
+    if len(text) <= limit:
+        return text
+    return text[: limit - 3] + "..."
+
+
 def safe_json_load(text: str) -> dict[str, Any]:
     try:
         return json.loads(text)

@@ -6,7 +6,7 @@ Watsonx + LangGraph core module for solving open-source package porting/build fa
 
 - `CorePortingAgent` (LangGraph orchestrator) that selects and runs specialized agents.
 - `BuildScriptAgent` for searching `ppc64le/build-scripts`.
-- `PatchAgent` for patch direction and candidate diff generation.
+- `PatchAgent` backed by the reusable `patchagent` module for patch discovery + adaptation.
 - `WebDiscoveryAgent` for web-based troubleshooting evidence.
 - `GitHubIssuesAgent` for issue-history-based fixes.
 - Single-agent or full-core execution through one JSON input.
@@ -70,3 +70,11 @@ The output is machine-readable JSON with:
 - selected agent list
 - final diagnosis/actions/patch direction
 - confidence score
+
+## Patch module (standalone)
+
+You can run patch generation directly:
+
+```bash
+uv run python patchagent/patch_automation.py --input '{"package_name":"datadog-agent","requested_package_version":"7.60.1","github_repo_url":"https://github.com/DataDog/datadog-agent","error_message":"patch failed"}'
+```
